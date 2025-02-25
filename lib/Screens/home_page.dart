@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   bool isFavorite = false;
   Timer? _timer;
   DateTime _currentDateTime = DateTime.now();
+  // ignore: unused_field
   String _currentVideoUrl = 'https://mercyott.com/hls_output/master.m3u8';
   bool _isLiveStream = true;
   String _selectedProgramTitle = 'Mercy TV Live';
@@ -167,6 +168,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // Dynamic font scaling based on screen width
+    double baseFontSize =
+        screenWidth < 360 ? 14 : 16; // Smaller font for small screens
+    double titleFontSize = screenWidth < 360 ? 18 : 22;
+    double buttonFontSize = screenWidth < 360 ? 16 : 20;
+
+    // Dynamic padding and spacing
+    double horizontalPadding = screenWidth * 0.04; // 4% of screen width
+    double verticalSpacing = screenHeight * 0.015; // 1.5% of screen height
+
     String formattedDate = _selectedProgramDate.isNotEmpty
         ? _selectedProgramDate
         : DateFormat('EEE dd MMM').format(_currentDateTime);
@@ -190,104 +205,117 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             SizedBox(
-              height: 250,
+              height:
+                  screenHeight * 0.3, // 30% of screen height for video player
               child: NewScreenPlayer(),
             ),
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: horizontalPadding,
+                    vertical: verticalSpacing,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.75,
+                            width: screenWidth * 0.75, // 75% of screen width
                             child: GestureDetector(
                               child: Text(
                                 _selectedProgramTitle,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Mulish-Bold'),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: titleFontSize,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Mulish-Bold',
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
                             ),
                           ),
                           if (_isLiveStream)
-                            const Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 2),
-                              child: LiveViewWidget(),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: verticalSpacing * 0.5),
+                              child: const LiveViewWidget(),
                             ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: verticalSpacing),
                       Row(
                         children: [
                           Text(
                             formattedDate,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontFamily: 'Mulish-Medium'),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: baseFontSize,
+                              fontFamily: 'Mulish-Medium',
+                            ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: horizontalPadding * 0.5),
                           const Text("|",
                               style: TextStyle(color: Colors.white)),
-                          const SizedBox(width: 8),
+                          SizedBox(width: horizontalPadding * 0.5),
                           Text(
                             formattedTime,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 15),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: baseFontSize,
+                            ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
-                      const ButtonSection(),
-                      const SizedBox(height: 20),
+                      SizedBox(height: verticalSpacing),
+                      const ButtonSection(), 
+                      SizedBox(height: verticalSpacing * 2),
                       GestureDetector(
                         onTap: _launchURL,
                         child: Container(
-                          height: 40,
+                          height: screenHeight * 0.06, 
+                          width: screenWidth * 0.9,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(40),
+                            borderRadius:
+                                BorderRadius.circular(screenWidth * 0.1),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Text(
                               'Sponsor us',
                               style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'Mulish-Medium'),
+                                color: Colors.black,
+                                fontSize: buttonFontSize,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Mulish-Medium',
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 15),
-                      const Text(
+                      SizedBox(height: verticalSpacing),
+                      Text(
                         'Past Programs',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300,
-                            fontFamily: 'Mulish-Medium'),
+                          color: Colors.white,
+                          fontSize:
+                              baseFontSize + 2, // Slightly larger than base
+                          fontWeight: FontWeight.w300,
+                          fontFamily: 'Mulish-Medium',
+                        ),
                       ),
-                      const SizedBox(height: 5),
+                      SizedBox(height: verticalSpacing * 0.5),
                       Container(
-                        width: 138,
+                        width: screenWidth * 0.35, // 35% of screen width
                         height: 2,
                         color: CustomColors.buttonColor,
                       ),
                       SuggestedVideoCard(
                         onVideoTap: _playVideo,
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: verticalSpacing * 2),
                     ],
                   ),
                 ),

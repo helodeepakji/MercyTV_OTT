@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:mercy_tv_app/API/api_integration.dart';
 import 'package:mercy_tv_app/API/dataModel.dart';
 import 'package:mercy_tv_app/Colors/custom_color.dart';
@@ -189,7 +188,7 @@ class VideoThumbnailCard extends StatelessWidget {
                   image: const DecorationImage(
                     image: AssetImage('assets/images/transparent.png'),
                     fit: BoxFit
-                        .cover, // Makes the image cover the entire container
+                        .cover,
                   ),
                 ),
               ),
