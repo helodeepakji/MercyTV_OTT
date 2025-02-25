@@ -70,8 +70,10 @@ class HomeController extends GetxController {
       isLive: false,
       fullScreenByDefault: false,
       additionalOptions: (context) {
-        if (isLiveStreamVar.value &&
-            !(chewieController?.isFullScreen ?? false)) {
+        if (isLiveStreamVar.value 
+        // && !(chewieController?.isFullScreen ?? false )
+            
+            ) {
           return <OptionItem>[
             OptionItem(
               iconData: Icons.video_settings,
